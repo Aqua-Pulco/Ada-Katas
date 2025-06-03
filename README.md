@@ -1,1 +1,1 @@
-ce repo correspond a un repo des katas et de leur correction
+ce répértoire contient mes katas et rendus d'exercices Ada
