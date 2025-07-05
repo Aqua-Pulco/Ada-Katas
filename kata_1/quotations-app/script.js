@@ -1,50 +1,55 @@
 let submit = document.getElementById("submit");
-let p1 = document.getElementById("p1");
-let p2 = document.getElementById("p2");
 let h3 = document.getElementById("h3");
+let div = document.getElementById("quote-list");
 
-let compteur = 0;
 let tab = [];
-// console.log(submit);
+let compteur = 0;
+h3.innerText = `${compteur} citation`
 
-
-function retourneTexte(id1) {
-   const txt = document.getElementById(`${id1}`).value;
-   return txt
-}
-
-function nouvelleBalise(type, texte, id){
-    let element = document.createElement(`${type}`);
+// crée une balise en dynamique html a partir d'une id existante
+function nouvelleBalise(typeBalise, texte, id){
+    let element = document.createElement(`${typeBalise}`);
     element.innerText = texte;
     return id.appendChild(element);
 }
 
-submit.addEventListener("click", () => {
-    compteur ++
-    console.log(compteur)
-    text = retourneTexte("citation");
-    author = retourneTexte("nomAuteur");
-    tab.push({text,author});
-    console.log(tab)
-    
-        for (let items of tab)
+function renvoiInput(id1) {
+   const txt = document.getElementById(`${id1}`).value;
+   return txt
+}
+
+function effaceInput(id1){
+    return document.getElementById(`${id1}`).value = "";
+}
+
+function addQuote(text, author){
+    const p1 = nouvelleBalise("p", text, div);
+    const p2 = nouvelleBalise("p", author, div);
+    p1.className = "quote";
+    p2.className = "author"; 
+    return p1, p2
+}
+
+
+ submit.addEventListener("click", () => {
+        compteur ++
+
+        if (compteur === 1 )
             {
-                p1.innerText = items.text
-                p2.innerText = items.author
+                h3.innerText = `${compteur} citation`
+            }
+        else
+            {
+                h3.innerText = `${compteur} citations`
             }
 
-            if (compteur === 1) {
-                h3.innerText = '1 citation';
-            }
-            else {
-                h3.innerText = compteur + ' citations';
-            }
-})
-
-
-
-
-
-
+       
+    let input1 = renvoiInput("citation");
+    let input2 = renvoiInput("nomAuteur");
+    addQuote(input1, input2);
+        
+        effaceInput("citation");
+        effaceInput("nomAuteur");  
+    })
 
  
