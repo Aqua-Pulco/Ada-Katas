@@ -1,5 +1,5 @@
-// NEXT relire code, se le ré expliquer
-// boucler sur tab pour afficher tous les <p>
+// NEXT >> CSS
+// NEXT ++ >> rechercher des auteurs et ou des mots
 
 
 let submit = document.getElementById("submit");
