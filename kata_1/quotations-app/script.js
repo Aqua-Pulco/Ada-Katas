@@ -32,6 +32,7 @@ if (madata === null){ //si il n'existe pas tab reste vide
 else {
     tab = JSON.parse(madata); // sinon je le rempli avec les infos precedentes
 }
+console.log("a quoi ressemble mon tableau", tab)
 
 let compteur = tab.length;
 h3Text();
@@ -98,7 +99,8 @@ submit.addEventListener("click", () => {
     tab.push({auteur: input2, citation: input1, numero: compteur});
     //console LOGGGG
     console.log(tab); 
-    
+
+  
     //pour envoyer tab dans le JSON je dois le transformer en strings
     let tab2 = JSON.stringify(tab);
 
@@ -108,9 +110,10 @@ submit.addEventListener("click", () => {
     console.log(localStorage.getItem("citations"));
             //console LOGGGG
             console.log(localStorage);
-            
-    addQuote(input1, input2);
-      
+     
+    for(let item of tab){
+        addQuote(item.citation, item.auteur)
+    }     
         effaceChampInput("citation");
         effaceChampInput("nomAuteur");  
     })
