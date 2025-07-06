@@ -17,13 +17,13 @@ let tab = [];
 // il y a deux possibilités soit le localstorage est null
     //console.log(madata); > null
     //il n'a pas été investi
-    // du coup
+    // a remplir
 
-// soit il est rempli
+// soit il est deja rempli
     //console.log(madata); 
-    //>>>TODO>>> [{"auteur":"untel1","citation":"mots1","numero":1},{"auteur":"untel2","citation":"mots2","numero":2}]
+    //[{"auteur":"untel1","citation":"mots1","numero":1},{"auteur":"untel2","citation":"mots2","numero":2}]
     //tableau d'objets mais strings (et oui c'est du JSON !!!)
-    // IL FAUT LES RETRANSFOORMER EN objet tableau (parse)
+    // IL FAUT LES RETRANSFORMER EN objet tableau (parse)
 
 // je verifie si le tiroir existe
 if (madata === null){ //si il n'existe pas tab reste vide
@@ -33,7 +33,7 @@ else {
     tab = JSON.parse(madata); // sinon je le rempli avec les infos precedentes
 }
 
-let compteur = tab.length
+let compteur = tab.length;
 h3Text();
 
 // crée une balise en dynamique html a partir d'une id existante
@@ -45,7 +45,7 @@ function nouvelleBalise(typeBalise, texte, id){
 
 function recupInput(id1) {
    const txt = document.getElementById(`${id1}`).value;
-   if (txt === ""){ // si rien > null > pour pouvoir sortir du click
+   if (txt === ""){ // si rien, renvoie null > pour pouvoir sortir du click
     return null
    }
    else {
@@ -57,7 +57,7 @@ function effaceChampInput(id1){
     return document.getElementById(`${id1}`).value = "";
 }
 
-function addQuote(text, author){
+function addQuote(text, author){ // affiche dynamiquement ds le html 
     const p1 = nouvelleBalise("p", text, div);
     const p2 = nouvelleBalise("B", author, div);
     p1.className = "quote";
@@ -83,24 +83,23 @@ submit.addEventListener("click", () => {
     let input1 = recupInput("citation");
     let input2 = recupInput("nomAuteur");
 
-    //si pas de caractère dans les inputs
+    //si pas de caractère dans les inputs > récupère le 'null' du return recupInput
     if (input1 === null || input2 === null) {
     // on ne compte rien, on sort du click, on ne va pas plus loin.
             return;
         }
     else{
-    //on compte
+    //on compte et on affiche h3
         compteur++
         h3Text();
     }
 
-   
-    //on rempli notre tableau
+    //on remplit notre tableau
     tab.push({auteur: input2, citation: input1, numero: compteur});
     //console LOGGGG
     console.log(tab); 
     
-    //pour envoyer tab vers le JSON je dois le transformer en strings
+    //pour envoyer tab dans le JSON je dois le transformer en strings
     let tab2 = JSON.stringify(tab);
 
     localStorage.setItem("citations", tab2); // je declare
