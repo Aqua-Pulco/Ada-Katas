@@ -1,6 +1,7 @@
 // NEXT >> CSS
+// NEXT ++ >> correcteur orthogrphe saisie
+// NEXT ++ >> Casse ?
 // NEXT ++ >> rechercher des auteurs et ou des mots
-
 
 let submit = document.getElementById("submit");
 let h3 = document.getElementById("h3");
@@ -79,6 +80,10 @@ function h3Text(){
             }
 }
 
+ for(let item of tab){
+        addQuote(item.citation, item.auteur)
+    }  
+
 
 submit.addEventListener("click", () => {
     let input1 = recupInput("citation");
@@ -94,6 +99,8 @@ submit.addEventListener("click", () => {
         compteur++
         h3Text();
     }
+    addQuote(input2);
+    addQuote(input1);
 
     //on remplit notre tableau
     tab.push({auteur: input2, citation: input1, numero: compteur});
@@ -111,9 +118,7 @@ submit.addEventListener("click", () => {
             //console LOGGGG
             console.log(localStorage);
      
-    for(let item of tab){
-        addQuote(item.citation, item.auteur)
-    }     
+      
         effaceChampInput("citation");
         effaceChampInput("nomAuteur");  
     })
