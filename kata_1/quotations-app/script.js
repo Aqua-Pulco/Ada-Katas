@@ -1,3 +1,7 @@
+// NEXT relire code, se le ré expliquer
+// boucler sur tab pour afficher tous les <p>
+
+
 let submit = document.getElementById("submit");
 let h3 = document.getElementById("h3");
 let div = document.getElementById("quote-list");
@@ -8,7 +12,6 @@ console.log(madata); //leeet's see 🔎
 
 let tab = []; 
 
-
 //localStorage.clear(); // 🙏
 
 // il y a deux possibilités soit le localstorage est null
@@ -18,7 +21,7 @@ let tab = [];
 
 // soit il est rempli
     //console.log(madata); 
-    // > [{"auteur":"untel1","citation":"mots1","numero":1},{"auteur":"untel2","citation":"mots2","numero":2}]
+    //>>>TODO>>> [{"auteur":"untel1","citation":"mots1","numero":1},{"auteur":"untel2","citation":"mots2","numero":2}]
     //tableau d'objets mais strings (et oui c'est du JSON !!!)
     // IL FAUT LES RETRANSFOORMER EN objet tableau (parse)
 
@@ -31,7 +34,7 @@ else {
 }
 
 let compteur = tab.length
-h3.innerText = `${compteur} citation`;
+h3Text();
 
 // crée une balise en dynamique html a partir d'une id existante
 function nouvelleBalise(typeBalise, texte, id){
@@ -40,9 +43,9 @@ function nouvelleBalise(typeBalise, texte, id){
     return id.appendChild(element);
 }
 
-function renvoiInput(id1) {
+function recupInput(id1) {
    const txt = document.getElementById(`${id1}`).value;
-   if (txt === ""){ // si pas de texte
+   if (txt === ""){ // si rien > null > pour pouvoir sortir du click
     return null
    }
    else {
@@ -50,43 +53,48 @@ function renvoiInput(id1) {
    }
 }
 
-function effaceInput(id1){
+function effaceChampInput(id1){
     return document.getElementById(`${id1}`).value = "";
 }
 
 function addQuote(text, author){
     const p1 = nouvelleBalise("p", text, div);
-    const p2 = nouvelleBalise("p", author, div);
+    const p2 = nouvelleBalise("B", author, div);
     p1.className = "quote";
-    p2.className = "author"; 
+    p2.className = "author";
+    
     return p1, p2
+}
+
+function h3Text(){
+       // texte du compteur
+    if (compteur <= 1)
+            {
+                return h3.innerText = `${compteur} citation`
+            }
+        else
+            {
+                return h3.innerText = `${compteur} citations`
+            }
 }
 
 
 submit.addEventListener("click", () => {
-    let input1 = renvoiInput("citation");
-    let input2 = renvoiInput("nomAuteur");
+    let input1 = recupInput("citation");
+    let input2 = recupInput("nomAuteur");
 
     //si pas de caractère dans les inputs
     if (input1 === null || input2 === null) {
-    // on ne compte rien, on sort du click
+    // on ne compte rien, on sort du click, on ne va pas plus loin.
             return;
         }
     else{
     //on compte
         compteur++
+        h3Text();
     }
 
-    // texte du compteur
-    if (compteur === 1 )
-            {
-                h3.innerText = `${compteur} citation`
-            }
-        else
-            {
-                h3.innerText = `${compteur} citations`
-            }
-    
+   
     //on rempli notre tableau
     tab.push({auteur: input2, citation: input1, numero: compteur});
     //console LOGGGG
@@ -104,8 +112,8 @@ submit.addEventListener("click", () => {
             
     addQuote(input1, input2);
       
-        effaceInput("citation");
-        effaceInput("nomAuteur");  
+        effaceChampInput("citation");
+        effaceChampInput("nomAuteur");  
     })
 
 
