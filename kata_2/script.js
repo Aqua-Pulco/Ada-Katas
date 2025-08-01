@@ -18,14 +18,17 @@ const getCoord = async (location) => {
     }
     catch (error) {
         h1.innerText = error.message;
-        return
+        gpsInfos.innerText = "GPS info :  "
+        temperature.innerText = "  C°";;
+        details.innerText = "";
+        return error;
     }
 }
 
 
 const getWeather = async (latitude, longitude) => {
     try {
-        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=temperature_2m,relativehumidity_2m,precipitation&timezone=auto`);
+        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&temperature_unit=celsius&hourly=temperature_2m,relativehumidity_2m,precipitation`);
         const weatherData = await response.json();
 
         return weatherData["current_weather"].temperature;
@@ -45,21 +48,25 @@ const details = document.querySelector("#details");
 const gpsInfos = document.querySelector("#gps");
 
 const showWeatherOnClick = async () => {
+    try {
 
-    okBtn.addEventListener("click", async (e) => {
-        e.preventDefault();
+        okBtn.addEventListener("click", async (e) => {
+            e.preventDefault();
+            h1.innerText = " Chargement...";
+            details.innerText = " Mise à jour en cours...";
+            gpsInfos.innerText = "En cours ...";
 
-        const ville = userInput.value;
-        h1.innerHTML = ville;
-        const latiLong = await getCoord(ville);
-        const temp = await getWeather(latiLong[0], latiLong[1])
-        temperature.innerText = `${temp}C°`;
-        details.innerText = "Température actuelle"
-        gpsInfos.innerText = `GPS info : ${latiLong[0]}, ${latiLong[1]}`;
+            const ville = userInput.value;
+            h1.innerHTML = ville;
+            const latiLong = await getCoord(ville);
+            const temp = await getWeather(latiLong[0], latiLong[1]);
+            temperature.innerText = `${temp}C°`;
+            details.innerText = "Température actuelle";
+            gpsInfos.innerText = `GPS info : ${latiLong[0]}, ${latiLong[1]}`;
+        })
+    } catch {
 
-
-    })
-
+    }
 }
 
 showWeatherOnClick()
