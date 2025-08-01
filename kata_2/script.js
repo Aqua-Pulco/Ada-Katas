@@ -8,9 +8,24 @@
 //puis on a les formats, limits etc
 
 let LAT, LON;
-let LAT_BRUT,LON_BRUT
+let LAT_BRUT,LON_BRUT;
 
 
+const getWeather = async (latitude, longitude) => {
+    try{
+    const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=temperature_2m,relativehumidity_2m,precipitation&timezone=auto`);
+    const weatherData = await response.json();
+    console.log(Object.keys(weatherData));
+    return weatherData["current_weather"].temperature;
+   
+    }
+    catch{
+
+    }
+
+}
+
+//
 const getLocation = async  (location) => {
     try{
     const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${location}&format=json&addressdetails=1&limit=1`);
@@ -18,10 +33,7 @@ const getLocation = async  (location) => {
     console.log(data);
     LAT_BRUT = Number(data[0].lat);
     LON_BRUT = Number(data[0].lon);
-    LAT = parseFloat(LAT_BRUT.toFixed(3));
-    LON = parseFloat(LON_BRUT.toFixed(3));
-    console.log("latbrut", LAT_BRUT, "longbrut", LON_BRUT);
-    console.log("lat", LAT, "long", LON);
+    console.log(await getWeather(LAT_BRUT, LON_BRUT));
     
     }
     catch{
@@ -31,16 +43,7 @@ const getLocation = async  (location) => {
 getLocation('lyon')
 
 
-const getWeather = async (latitude, longitude) => {
-    try{
-    const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=temperature_2m,relativehumidity_2m,precipitation`);
-    const weatherData = await response.json();
-    console.log(weatherData);
-    }
-    catch{
 
-    }
 
-}
- getWeather(45.75, 4.83);
+
 
