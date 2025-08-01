@@ -1,10 +1,10 @@
-
-
 //fonction async attrappe les coordonées geo selon une loc renvoie un tableau
 const getCoord = async (location) => {
     try {
         const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${location}&format=json&addressdetails=1&limit=1`);
         const data = await response.json();
+
+        console.log(data);
 
         if (data.length === 0) {
             throw new Error("Ville non trouvée");
@@ -27,8 +27,7 @@ const getWeather = async (latitude, longitude) => {
     try {
         const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=temperature_2m,relativehumidity_2m,precipitation&timezone=auto`);
         const weatherData = await response.json();
-        // console.log(Object.keys(weatherData));
-        // console.log(weatherData["current_weather"].temperature);
+
         return weatherData["current_weather"].temperature;
 
     }
@@ -55,6 +54,8 @@ const showWeatherOnClick = async () => {
         const latiLong = await getCoord(ville);
         const temp = await getWeather(latiLong[0], latiLong[1])
         temperature.innerText = `${temp}C°`;
+        details.innerText = "Température actuelle"
+        gpsInfos.innerText = `GPS info : ${latiLong[0]}, ${latiLong[1]}`;
 
 
     })
